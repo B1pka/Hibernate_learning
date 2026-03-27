@@ -15,27 +15,34 @@ public class Client {
     @SequenceGenerator(name = "clients_gen", sequenceName = "clients_id_seq", allocationSize = 2)
     private Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "registration_date")
+    @Column(name = "registration_date", nullable = false)
     private LocalDateTime registrationDate;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
-    @OneToOne(mappedBy = "client", cascade = CascadeType.REMOVE)
+    public void addOrder(Order order){
+        orders.add(order);
+        order.setClient(this);
+    }
+
+    public void deleteOrder(Order order){
+        orders.remove(order);
+        order.setClient(null);
+    }
+
+    @OneToOne(mappedBy = "client",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private Profile profile;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -43,6 +50,28 @@ public class Client {
     joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "coupon_id", referencedColumnName = "id"))
     private List<Coupon> couponList = new ArrayList<>();
+
+    public void addCoupon(Coupon coupon){
+        if(coupon == null){
+            return;
+        }
+        if(!couponList.contains(coupon)){
+            couponList.add(coupon);
+        }
+        if(!coupon.getClientList().contains(this)){
+            coupon.getClientList().add(this);
+        }
+    }
+
+    public void deleteCoupon(Coupon coupon){
+        if(coupon == null){
+            return;
+        }
+
+        couponList.remove(coupon);
+        coupon.getClientList().remove(this);
+    }
+
     public Client() {
 
     }
@@ -51,6 +80,37 @@ public class Client {
         this.registrationDate = registrationDate;
         this.name = name;
         this.email = email;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        if(this.profile != null){
+            this.profile.setClient(null);
+        }
+        this.profile = profile;
+
+        if(profile != null && profile.getClient() != this){
+            profile.setClient(this);
+        }
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public List<Coupon> getCouponList() {

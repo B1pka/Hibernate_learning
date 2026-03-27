@@ -1,4 +1,4 @@
-package core;
+package config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -16,10 +16,10 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = {"core", "services"})
+@ComponentScan(basePackages = {"core", "service"})
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
-public class Hibernatecfg{
+public class HibernateConfig {
 
     @Value("${db.url}")
     private String url;

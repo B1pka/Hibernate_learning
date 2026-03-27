@@ -2,6 +2,9 @@ package core;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "coupon")
 public class Coupon {
@@ -25,7 +28,8 @@ public class Coupon {
     @Column(name = "discount")
     private Long discount;
 
-
+    @ManyToMany(mappedBy = "couponList")
+    private List<Client> clientList = new ArrayList<>();
 
     public Coupon() {
 
@@ -34,6 +38,14 @@ public class Coupon {
     public Coupon(Long discount, Long code) {
         this.discount = discount;
         this.code = code;
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
     }
 
     public Long getCode() {

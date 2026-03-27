@@ -18,13 +18,12 @@ public class Profile {
     @Column(name = "phone")
     private String phone;
 
-    @OneToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id",
+            referencedColumnName = "id",
+            nullable = false,
+            unique = true)
     private Client client;
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public Profile() {
     }
@@ -38,6 +37,14 @@ public class Profile {
         this.address = address;
         this.phone = phone;
         this.client = client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     public void setId(Long id) {

@@ -17,8 +17,9 @@ public class Order {
     @Column(name = "totalAmount")
     private BigDecimal totalAmount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Boolean status;
+    private OrderStatus status;
 
     @Column(name = "order_date", updatable = false)
     private LocalDateTime orderDate;
@@ -30,14 +31,14 @@ public class Order {
     public Order() {
     }
 
-    public Order(BigDecimal totalAmount, Boolean status, LocalDateTime orderDate, Client client) {
+    public Order(BigDecimal totalAmount, OrderStatus status, LocalDateTime orderDate, Client client) {
         this.totalAmount = totalAmount;
         this.status = status;
         this.orderDate = orderDate;
         this.client = client;
     }
 
-    public Order(LocalDateTime orderDate, BigDecimal totalAmount, Boolean status) {
+    public Order(LocalDateTime orderDate, BigDecimal totalAmount, OrderStatus status) {
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.status = status;
@@ -75,11 +76,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Boolean getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 }
