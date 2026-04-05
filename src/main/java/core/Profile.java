@@ -12,10 +12,10 @@ public class Profile {
     @SequenceGenerator(name = "profile_gen", sequenceName = "profile_id_gen", allocationSize = 2)
     private Long id;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
 
     @OneToOne(fetch = FetchType.LAZY)

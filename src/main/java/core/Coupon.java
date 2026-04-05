@@ -22,10 +22,10 @@ public class Coupon {
         return id;
     }
 
-    @Column(name = "promocode")
+    @Column(name = "promocode", nullable = false)
     private Long code;
 
-    @Column(name = "discount")
+    @Column(name = "discount", nullable = false)
     private Long discount;
 
     @ManyToMany(mappedBy = "couponList")

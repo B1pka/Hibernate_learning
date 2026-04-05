@@ -14,11 +14,11 @@ public class Order {
     @SequenceGenerator(name = "order_gen", sequenceName = "order_id_seq", allocationSize = 2)
     private Long id;
 
-    @Column(name = "totalAmount")
+    @Column(name = "totalAmount", nullable = false)
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private OrderStatus status;
 
     @Column(name = "order_date", updatable = false)
